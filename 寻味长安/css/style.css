@@ -207,6 +207,24 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   position: absolute; left: 0; bottom: 0; width: 100%;
   height: auto; z-index: 1; pointer-events: none;
 }
+/* 首屏真实照片位：覆盖 SVG 插画（z-index 1），灯笼(z2)与文字(z3)仍浮于其上 */
+.hero-photo-wrap {
+  position: absolute; inset: 0; z-index: 1; display: none;
+  background: #170808;            /* 图片加载前的底色 */
+  overflow: hidden;
+}
+.hero-photo-wrap img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 38%;
+  opacity: 0; transition: opacity .9s ease;
+}
+/* 暗色蒙版：压暗照片、保证白色标题与数据清晰可读 */
+.hero-photo-wrap::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(10,4,4,.58) 0%, rgba(10,4,4,.32) 42%, rgba(10,4,4,.62) 100%),
+    radial-gradient(120% 85% at 50% 38%, transparent 28%, rgba(10,4,4,.55) 100%);
+}
 #hero .hero-inner { position: relative; z-index: 3; }
 
 /* 挂灯笼 */

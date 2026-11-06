@@ -101,8 +101,12 @@
 
     <p class="scroll-hint">▼ 向下滑动</p>
 
-    <!-- ★ 可选图片位：images/hero.jpg 存在时覆盖整幅插画 -->
-    <img id="hero-photo" src="images/hero.jpg" alt="" style="display:none;">
+    <!-- ★ 可选图片位：images/hero.jpg 存在时覆盖整幅 SVG 插画 -->
+    <div id="hero-photo-wrap" class="hero-photo-wrap" aria-hidden="true">
+      <img id="hero-photo" src="images/hero.jpg" alt="西安钟楼夜景"
+           onload="this.parentElement.style.display='block'; this.style.opacity=1;"
+           onerror="this.parentElement.style.display='none';">
+    </div>
 
     <!-- ============ 长安夜色 SVG 场景 ============ -->
     <svg class="scene" viewBox="0 0 1440 480" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
