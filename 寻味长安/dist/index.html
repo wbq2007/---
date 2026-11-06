@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="寻味长安 —— 一座可以吃掉的城市。西安美食文化主题页：长安美食、味道时间线、饮食文化、街巷地图与社区讨论，基于 Bmob 后端云构建。">
+  <meta name="theme-color" content="#F53F3F">
+  <title>寻味长安 · 西安美食文化</title>
+  <!-- 浏览器标签页小图标：内嵌 SVG 的"味"字，不依赖外部文件 -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23F53F3F'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23ffffff' font-family='serif'%3E味%3C/text%3E%3C/svg%3E">
+
+  <!-- 提前定义图片加载回调：
+       美食卡片/首屏的 <img> 内联引用了这两个函数，
+       必须赶在图片可能加载完成之前定义好，避免竞态。
+       - imgOk：照片加载成功 → 淡入显示（盖住 SVG 插画）
+       - imgFail：照片不存在 → 隐藏 <img>，露出手绘插画 -->
+  <script src="js/img-utils.js"></script>
+
+  <!-- ============================================================
+       【样式部分】所有 CSS 已抽离到 css/style.css，每段都有注释。
+       设计基调：唐风夜色（暗红）+ 鎏金 + 米黄旧纸，纯 CSS/SVG，
+       不加载任何外部图片或字体库，离线也能完整显示。
+       ============================================================ -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- 图片占位图标 sprite：所有占位框共用一枚「照片」线性图标 -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="ico-photo" viewBox="0 0 24 24">
+      <rect x="3" y="5" width="18" height="14" rx="2"/>
+      <circle cx="9" cy="10" r="1.8"/>
+      <path d="m4.8 17.2 4.5-4.5a2 2 0 0 1 2.8 0l4.3 4.3M14.8 15.4l1.4-1.4a2 2 0 0 1 2.8 0l1.2 1.2"/>
+    </symbol>
+  </svg>
+
+  <!-- 顶部滚动进度条 -->
+  <div id="progress"></div>
+
+  <!-- ============================================================
+       【顶部导航】
+       ============================================================ -->
+  <header>
+    <div class="logo">寻味长安</div>
+    <div class="header-right">
+      <nav id="nav">
+        <a href="#foods">长安美食</a>
+        <a href="#timeline">味道时间线</a>
+        <a href="#culture">饮食文化</a>
+        <a href="#map">街巷地图</a>
+        <a href="#community">社区讨论</a>
+      </nav>
+      <!-- 深浅主题切换：图标随 html[data-theme] 显示太阳/月亮 -->
+      <button id="theme-toggle" class="theme-toggle" type="button"
+              title="切换深浅色模式" aria-label="切换深浅色模式">
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21.6 14.2A9.6 9.6 0 0 1 9.8 2.4a9.6 9.6 0 1 0 11.8 11.8z"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none"/>
+          <path d="M12 1.8v2.4M12 19.8v2.4M1.8 12h2.4M19.8 12h2.4M4.8 4.8l1.7 1.7M17.5 17.5l1.7 1.7M19.2 4.8l-1.7 1.7M6.5 17.5l-1.7 1.7"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       【首屏 · 长安夜色】
+       纯 SVG 场景：曲线飞檐的大雁塔（偏右，避开中部文字）、
+       钟楼（偏左）、城墙城门、明月、流云、金粉；CSS 灯笼。
+       放入 images/hero.jpg 可整幅替换为真实照片。
+       ============================================================ -->
+  <section id="hero">
+
+    <div class="lantern-wrap l1">
+      <div class="lantern-string"></div>
+      <div class="lantern"><div class="tassel"></div></div>
+    </div>
+    <div class="lantern-wrap l2">
+      <div class="lantern-string"></div>
+      <div class="lantern"><div class="tassel"></div></div>
+    </div>
+
+    <div class="hero-inner">
+      <h1>寻味长安</h1>
+      <p class="sub">一座可以吃掉的城市 · 十三朝古都的味觉地图</p>
+
+      <div class="hero-stats">
+        <div><div class="num">3100<span style="font-size:.55em">年</span></div><div class="label">建城史</div></div>
+        <div><div class="num">十三朝</div><div class="label">古都定鼎</div></div>
+        <div><div class="num">丝路起点</div><div class="label">胡汉风味交融</div></div>
+      </div>
+
+      <div class="hero-btns">
+        <a class="btn-gold" href="#foods">开始寻味</a>
+        <a class="btn-ghost" href="#community">去社区聊聊</a>
+      </div>
+    </div>
+
+    <p class="scroll-hint">▼ 向下滑动</p>
+
+    <!-- ★ 可选图片位：images/hero.jpg 存在时覆盖整幅插画 -->
+    <img id="hero-photo" src="images/hero.jpg" alt="" style="display:none;">
+
+    <!-- ============ 长安夜色 SVG 场景 ============ -->
+    <svg class="scene" viewBox="0 0 1440 480" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <radialGradient id="moonGlow">
+          <stop offset="0%"  stop-color="#f3e6bb" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="#f3e6bb" stop-opacity="0"/>
+        </radialGradient>
+        <pattern id="crenel" width="44" height="14" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="22" height="14" fill="#150808"/>
+        </pattern>
+      </defs>
+
+      <!-- 星星 -->
+      <g fill="#f5e6c8">
+        <circle class="tw"     cx="140"  cy="60"  r="2"/>
+        <circle class="tw tw2" cx="330"  cy="40"  r="1.6"/>
+        <circle class="tw tw3" cx="520"  cy="86"  r="2.2"/>
+        <circle class="tw tw2" cx="660"  cy="34"  r="1.5"/>
+        <circle class="tw"     cx="900"  cy="70"  r="2"/>
+        <circle class="tw tw3" cx="1010" cy="40"  r="1.6"/>
+        <circle class="tw tw2" cx="1345" cy="48"  r="2.2"/>
+        <circle class="tw"     cx="1408" cy="120" r="1.5"/>
+        <circle class="tw tw3" cx="70"   cy="150" r="1.8"/>
+        <circle class="tw tw2" cx="430"  cy="150" r="1.4"/>
+        <circle class="tw"     cx="800"  cy="26"  r="1.8"/>
+      </g>
+
+      <!-- 明月（左上，与右侧大雁塔错开） -->
+      <circle cx="250" cy="104" r="86" fill="url(#moonGlow)"/>
+      <circle cx="250" cy="104" r="40" fill="#f3e6bb"/>
+      <circle cx="238" cy="94"  r="6.5" fill="#e5d49e" opacity=".65"/>
+      <circle cx="264" cy="118" r="4.5" fill="#e5d49e" opacity=".55"/>
+
+      <!-- 流云：金色描边的如意云，不再是土色块 -->
+      <g class="cloud" fill="none" stroke="#e8c87a" stroke-opacity=".28" stroke-width="2">
+        <path d="M420 150 q14 -18 38 -10 q12 -20 40 -12 q26 -14 44 10 q26 8 16 22 q-62 8 -138 0 q-12 -4 0 -10 z"/>
+      </g>
+      <g class="cloud2" fill="none" stroke="#e8c87a" stroke-opacity=".2" stroke-width="2" transform="translate(700,40) scale(.8)">
+        <path d="M420 150 q14 -18 38 -10 q12 -20 40 -12 q26 -14 44 10 q26 8 16 22 q-62 8 -138 0 q-12 -4 0 -10 z"/>
+      </g>
+
+      <!-- 金粉光点 -->
+      <g fill="#e8c87a">
+        <circle class="dust"    cx="380"  cy="300" r="2.4"/>
+        <circle class="dust d2" cx="720"  cy="250" r="2"/>
+        <circle class="dust d3" cx="1080" cy="310" r="2.6"/>
+        <circle class="dust d2" cx="560"  cy="360" r="1.8"/>
+        <circle class="dust"    cx="900"  cy="350" r="2"/>
+      </g>
+
+      <!-- ===== 远景山影（增加层次） ===== -->
+      <path d="M0 400 Q180 356 360 392 T760 386 T1160 394 T1440 380 V480 H0 Z" fill="#2a0d0d" opacity=".75"/>
+
+      <!-- ===== 大雁塔（右侧，曲线飞檐，七层） ===== -->
+      <g transform="translate(1080,0)">
+        <g fill="#1c0c0c">
+          <rect x="-4" y="96" width="8" height="22"/>            <!-- 塔刹 -->
+          <circle cx="0" cy="90" r="7"/>
+          <!-- 每层 = 曲线檐 + 梯形身 -->
+          <path d="M-56 118 Q0 106 56 118 L46 128 Q0 118 -46 128 Z"/>
+          <path d="M-38 128 L38 128 L34 156 L-34 156 Z"/>
+          <path d="M-66 156 Q0 143 66 156 L55 167 Q0 156 -55 167 Z"/>
+          <path d="M-46 167 L46 167 L41 199 L-41 199 Z"/>
+          <path d="M-77 199 Q0 185 77 199 L65 211 Q0 199 -65 211 Z"/>
+          <path d="M-55 211 L55 211 L49 247 L-49 247 Z"/>
+          <path d="M-89 247 Q0 232 89 247 L76 260 Q0 247 -76 260 Z"/>
+          <path d="M-65 260 L65 260 L58 300 L-58 300 Z"/>
+          <path d="M-102 300 Q0 284 102 300 L88 314 Q0 300 -88 314 Z"/>
+          <path d="M-76 314 L76 314 L68 358 L-68 358 Z"/>
+          <path d="M-116 358 Q0 341 116 358 L101 373 Q0 358 -101 373 Z"/>
+          <path d="M-88 373 L88 373 L79 420 L-79 420 Z"/>
+          <rect x="-118" y="420" width="236" height="13" rx="2"/>  <!-- 台基 -->
+          <rect x="-140" y="433" width="280" height="11" rx="2"/>
+        </g>
+        <!-- 窗灯 -->
+        <g fill="#e8c87a" class="win">
+          <circle cx="0" cy="142" r="3"/>
+          <circle cx="0" cy="183" r="3.4"/>
+          <circle cx="0" cy="229" r="3.8"/>
+          <circle cx="0" cy="280" r="4.2"/>
+          <circle cx="0" cy="336" r="4.6"/>
+          <circle cx="0" cy="396" r="5"/>
+        </g>
+      </g>
+
+      <!-- ===== 钟楼（左侧，曲线屋顶） ===== -->
+      <g transform="translate(300,0)">
+        <g fill="#1c0c0c">
+          <path d="M-78 386 Q0 344 78 386 Q52 372 0 372 Q-52 372 -78 386 Z"/>
+          <circle cx="0" cy="352" r="5"/>
+          <rect x="-46" y="382" width="92" height="48"/>
+          <path d="M-58 382 Q0 368 58 382 L48 390 Q0 380 -48 390 Z"/>
+          <rect x="-56" y="430" width="112" height="13" rx="2"/>
+        </g>
+        <rect x="-14" y="398" width="28" height="18" rx="2" fill="#e8c87a" class="win"/>
+      </g>
+
+      <!-- ===== 城墙与城门 ===== -->
+      <rect x="0" y="430" width="1440" height="14" fill="url(#crenel)"/>
+      <rect x="0" y="444" width="1440" height="36" fill="#150808"/>
+      <!-- 城门洞（门内透出一点暖光，含蓄即可） -->
+      <path d="M690 480 v-22 q30 -26 60 0 v22 z" fill="#0c0404"/>
+      <path d="M700 480 v-16 q20 -17 40 0 v16 z" fill="#e8c87a" opacity=".14"/>
+      <!-- 城墙灯火 -->
+      <g fill="#e8c87a" opacity=".5">
+        <rect x="430"  y="452" width="9" height="13" rx="2" class="win"/>
+        <rect x="560"  y="452" width="9" height="13" rx="2"/>
+        <rect x="880"  y="452" width="9" height="13" rx="2" class="win"/>
+        <rect x="1010" y="452" width="9" height="13" rx="2"/>
+      </g>
+    </svg>
+  </section>
+
+  <!-- ============================================================
+       【长安美食】6 张卡片：渐变背景 + 桌面 + 高光 + 投影的手绘插画；
+       放入 images/ 对应文件名的真实照片会自动覆盖插画。
+       ============================================================ -->
+  <section id="foods">
+    <h2 class="sec-title reveal">长安美食</h2>
+    <p class="sec-desc reveal">从清晨的胡辣汤，到深夜的烤肉摊</p>
+
+    <div class="food-grid">
+
+      <!-- 卡片 1：羊肉泡馍（Bento 招牌大卡：左图右文，横跨 6 列） -->
+      <div class="food-card bento-wide reveal">
+        <div class="art">
+          <span class="card-badge">镇街招牌</span>
+          <img src="images/paomo.jpg" alt="羊肉泡馍" onload="imgOk(this)" onerror="imgFail(this)">
+          <div class="ph" aria-hidden="true">
+            <svg class="ph-ico"><use href="#ico-photo"/></svg>
+            <span class="ph-name">paomo.jpg</span>
+            <span class="ph-hint">放入 images/ 后自动显示</span>
+          </div>
+        </div>
+        <div class="info">
+          <h3>羊肉泡馍 <span class="pinyin">YANGROU PAOMO</span></h3>
+          <div class="chips"><span class="chip">非遗技艺</span><span class="chip">待客头牌</span></div>
+          <p>自己掰馍、厨师烹汤，馍筋光滑、汤浓味重。掰馍的仪式感，是西安人待客的诚意。</p>
+        </div>
+      </div>
+
+      <!-- 卡片 2：肉夹馍 -->
+      <div class="food-card reveal">
+        <div class="art">
+          <img src="images/roujiamo.jpg" alt="肉夹馍" onload="imgOk(this)" onerror="imgFail(this)">
+          <div class="ph" aria-hidden="true">
+            <svg class="ph-ico"><use href="#ico-photo"/></svg>
+            <span class="ph-name">roujiamo.jpg</span>
+            <span class="ph-hint">放入 images/ 后自动显示</span>
+          </div>
+        </div>
+        <div class="info">
+          <h3>肉夹馍 <span class="pinyin">ROUJIAMO</span></h3>
+          <div class="chips"><span class="chip">中式汉堡</span><span class="chip">街头顶流</span></div>
+          <p>白吉馍外脆里软，腊汁肉肥而不腻，一口咬下，"中式汉堡"名不虚传。</p>
+        </div>
+      </div>
+
+      <!-- 卡片 3：biangbiang面 -->
+      <div class="food-card reveal">
+        <div class="art">
+          <img src="images/biangmian.jpg" alt="biangbiang面" onload="imgOk(this)" onerror="imgFail(this)">
+          <div class="ph" aria-hidden="true">
+            <svg class="ph-ico"><use href="#ico-photo"/></svg>
+            <span class="ph-name">biangmian.jpg</span>
+            <span class="ph-hint">放入 images/ 后自动显示</span>
+          </div>
+        </div>
+        <div class="info">
+          <h3>biangbiang面 <span class="pinyin">BIANGBIANG NOODLES</span></h3>
+          <div class="chips"><span class="chip">陕西八大怪</span><span class="chip">油泼辣子</span></div>
+          <p>面如裤带，油泼辣子配蒜瓣。那个复杂的"biang"字，本身就是长安的市井趣味。</p>
+        </div>
+      </div>
+
+      <!-- 卡片 4：凉皮 -->
+      <div class="food-card reveal">
+        <div class="art">
+          <img src="images/liangpi.jpg" alt="凉皮" onload="imgOk(this)" onerror="imgFail(this)">
+          <div class="ph" aria-hidden="true">
+            <svg class="ph-ico"><use href="#ico-photo"/></svg>
+            <span class="ph-name">liangpi.jpg</span>
+            <span class="ph-hint">放入 images/ 后自动显示</span>
+          </div>
+        </div>
+        <div class="info">
+          <h3>凉皮 <span class="pinyin">LIANGPI</span></h3>
+          <div class="chips"><span class="chip">秦镇米皮</span><span class="chip">四季皆宜</span></div>
+          <p>筋、薄、细、穰，配上面筋、黄瓜丝，泼一勺辣子，酸辣爽口，四季皆宜。</p>
+        </div>
+      </div>
+
+      <!-- 卡片 5：肉丸胡辣汤 -->
+      <div class="food-card reveal">
+        <div class="art">
+          <img src="images/hulatang.jpg" alt="肉丸胡辣汤" onload="imgOk(this)" onerror="imgFail(this)">
+          <div class="ph" aria-hidden="true">
+            <svg class="ph-ico"><use href="#ico-photo"/></svg>
+            <span class="ph-name">hulatang.jpg</span>
+            <span class="ph-hint">放入 images/ 后自动显示</span>
+          </div>
+        </div>
+        <div class="info">
+          <h3>肉丸胡辣汤 <span class="pinyin">HULATANG</span></h3>
+          <div class="chips"><span class="chip">早餐灵魂</span><span class="chip">麻辣鲜香</span></div>
+          <p>西安人的早餐灵魂。麻、辣、鲜、香，配一个坨坨馍，一天从这口热汤开始。</p>
+        </div>
+      </div>
+
+      <!-- 卡片 6：甑糕（Bento 招牌大卡） -->
+      <div class="food-card bento-wide reveal">
+        <div class="art">
+          <span class="card-badge">千年古法</span>
+          <img src="images/zenggao.jpg" alt="甑糕" onload="imgOk(this)" onerror="imgFail(this)">
+          <div class="ph" aria-hidden="true">
+            <svg class="ph-ico"><use href="#ico-photo"/></svg>
+            <span class="ph-name">zenggao.jpg</span>
+            <span class="ph-hint">放入 images/ 后自动显示</span>
+          </div>
+        </div>
+        <div class="info">
+          <h3>甑糕 <span class="pinyin">ZENGGAO</span></h3>
+          <div class="chips"><span class="chip">千年炊具</span><span class="chip">枣米相叠</span></div>
+          <p>糯米与红枣层层相叠，用古老的"甑"蒸制，绵软香甜，甜到心里。</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       【味道时间线】
+       ============================================================ -->
+  <section id="timeline">
+    <h2 class="sec-title reveal">味道时间线</h2>
+    <p class="sec-desc reveal">三千年炊烟不断，一座城的味觉编年史</p>
+
+    <div class="timeline">
+      <div class="t-item reveal">
+        <div class="t-card">
+          <span class="t-era">西周 · 三千年前</span>
+          <h3>「周八珍」问世</h3>
+          <p>中国最早的宫廷宴席食谱记载于《周礼》，长安一带的饮食自此有了"礼"的骨架。</p>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-card">
+          <span class="t-era">汉唐 · 丝路驼铃</span>
+          <h3>胡风入馔</h3>
+          <p>张骞通西域，葡萄、核桃、芝麻、胡椒沿丝路而来；唐代长安西市胡商云集，"胡汉交融"的味觉基因就此写定。</p>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-card">
+          <span class="t-era">宋元 · 市井烟火</span>
+          <h3>夜市开张</h3>
+          <p>坊市之制瓦解，夜市食肆兴旺，羹汤饼食走进寻常巷陌，长安的味道从宫廷流入民间。</p>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-card">
+          <span class="t-era">明清 · 回坊成形</span>
+          <h3>老铺传承</h3>
+          <p>北院门一带成为商旅聚居之地，泡馍、腊牛羊肉的老字号代代相传，烟火至今。</p>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <div class="t-card">
+          <span class="t-era">今日 · 非遗舌尖</span>
+          <h3>味道成遗产</h3>
+          <p>牛羊肉泡馍、甑糕、凉皮等制作技艺列入非物质文化遗产，长安味道被认真地守护着。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       【饮食文化】左文 + 右挂轴海报
+       ============================================================ -->
+  <section id="culture">
+    <h2 class="sec-title reveal">饮食文化</h2>
+    <p class="sec-desc reveal">丝路起点上的味觉千年</p>
+
+    <div class="culture-wrap">
+      <div class="text reveal">
+        <h3>丝路带来的味道</h3>
+        <p>长安是古丝绸之路的起点。胡椒、孜然、芝麻……许多食材沿着丝路来到这里，与中原烹饪技艺融合，成就了今天西安美食"胡汉交融"的独特气质。</p>
+        <h3>回坊的烟火气</h3>
+        <p>北院门一带的回民街，从明清起就是商旅聚集之地。老铺子代代相传，一座城的味道在这里被完整保存。</p>
+        <h3>馍里的哲学</h3>
+        <p>泡馍要自己掰，掰得越碎越入味——西安人把耐心揉进了食物里。一碗泡馍，吃的是味道，也是慢下来的生活。</p>
+        <div class="culture-quote">"九天阊阖开宫殿，万国衣冠拜冕旒。" —— 味觉的长安，也是世界的长安。</div>
+
+        <!-- ★ 图片位：images/culture.jpg（竖图更佳），未放入时显示占位框 -->
+        <div class="culture-photo reveal">
+          <img src="images/culture.jpg" alt="饮食文化配图" onload="imgOk(this)" onerror="imgFail(this)">
+          <div class="ph" aria-hidden="true">
+            <svg class="ph-ico"><use href="#ico-photo"/></svg>
+            <span class="ph-name">culture.jpg</span>
+            <span class="ph-hint">放入 images/ 后自动显示</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 挂轴：上轴杆 + 绢面 + 下轴杆 -->
+      <div class="poster-col reveal">
+        <div class="poster-rod"></div>
+        <div class="poster">
+          <span class="poster-note">十三朝古都 · 人间烟火</span>
+          <div class="poster-text">
+            <p>人间烟火气</p>
+            <p>最抚凡人心</p>
+          </div>
+          <div class="poster-seal">长安</div>
+        </div>
+        <div class="poster-rod"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       【街巷味道地图】
+       ============================================================ -->
+  <section id="map">
+    <h2 class="sec-title reveal">街巷味道地图</h2>
+    <p class="sec-desc reveal">跟着本地人，钻进城墙里的四条巷子</p>
+
+    <div class="street-accordion reveal">
+      <!-- 面板：回民街 · 北院门（图片位 images/huiminjie.jpg） -->
+      <div class="street-panel" tabindex="0" role="button" aria-label="回民街 · 北院门">
+        <img src="images/huiminjie.jpg" alt="回民街 · 北院门" onload="imgOk(this)" onerror="imgFail(this)">
+        <div class="ph" aria-hidden="true">
+          <svg class="ph-ico"><use href="#ico-photo"/></svg>
+          <span class="ph-name">huiminjie.jpg</span>
+          <span class="ph-hint">放入 images/ 后自动显示</span>
+        </div>
+        <span class="sp-title-v" aria-hidden="true">回民街 · 北院门</span>
+        <div class="sp-content">
+          <h3><span class="pin-box"><svg class="pin" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>回民街 · 北院门</h3>
+          <p>游客必打卡的夜色食街，青石板路两侧灯火通明，热闹到深夜。</p>
+          <div class="tags"><span class="chip">牛肉泡馍</span><span class="chip">酸梅汤</span><span class="chip">黄桂柿子饼</span></div>
+        </div>
+      </div>
+      <!-- 面板：洒金桥（图片位 images/sajinqiao.jpg） -->
+      <div class="street-panel" tabindex="0" role="button" aria-label="洒金桥">
+        <img src="images/sajinqiao.jpg" alt="洒金桥" onload="imgOk(this)" onerror="imgFail(this)">
+        <div class="ph" aria-hidden="true">
+          <svg class="ph-ico"><use href="#ico-photo"/></svg>
+          <span class="ph-name">sajinqiao.jpg</span>
+          <span class="ph-hint">放入 images/ 后自动显示</span>
+        </div>
+        <span class="sp-title-v" aria-hidden="true">洒金桥</span>
+        <div class="sp-content">
+          <h3><span class="pin-box"><svg class="pin" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>洒金桥</h3>
+          <p>本地人的早餐天堂，一条不算长的街，老味道却多到吃不完。</p>
+          <div class="tags"><span class="chip">胡辣汤</span><span class="chip">甑糕</span><span class="chip">千层油酥饼</span></div>
+        </div>
+      </div>
+      <!-- 面板：东新街 · 小东门（图片位 images/dongxinjie.jpg） -->
+      <div class="street-panel" tabindex="0" role="button" aria-label="东新街 · 小东门">
+        <img src="images/dongxinjie.jpg" alt="东新街 · 小东门" onload="imgOk(this)" onerror="imgFail(this)">
+        <div class="ph" aria-hidden="true">
+          <svg class="ph-ico"><use href="#ico-photo"/></svg>
+          <span class="ph-name">dongxinjie.jpg</span>
+          <span class="ph-hint">放入 images/ 后自动显示</span>
+        </div>
+        <span class="sp-title-v" aria-hidden="true">东新街 · 小东门</span>
+        <div class="sp-content">
+          <h3><span class="pin-box"><svg class="pin" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>东新街 · 小东门</h3>
+          <p>老西安的夜宵江湖，炭火烤肉配一瓶冰峰，才是圆满的夜。</p>
+          <div class="tags"><span class="chip">烤肉</span><span class="chip">烩菜</span><span class="chip">小炒泡馍</span></div>
+        </div>
+      </div>
+      <!-- 面板：大皮院 · 西羊市（图片位 images/dapiyuan.jpg） -->
+      <div class="street-panel" tabindex="0" role="button" aria-label="大皮院 · 西羊市">
+        <img src="images/dapiyuan.jpg" alt="大皮院 · 西羊市" onload="imgOk(this)" onerror="imgFail(this)">
+        <div class="ph" aria-hidden="true">
+          <svg class="ph-ico"><use href="#ico-photo"/></svg>
+          <span class="ph-name">dapiyuan.jpg</span>
+          <span class="ph-hint">放入 images/ 后自动显示</span>
+        </div>
+        <span class="sp-title-v" aria-hidden="true">大皮院 · 西羊市</span>
+        <div class="sp-content">
+          <h3><span class="pin-box"><svg class="pin" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>大皮院 · 西羊市</h3>
+          <p>巷子深处藏老铺，门面不起眼，跟着本地人排队准没错。</p>
+          <div class="tags"><span class="chip">麻酱酿皮</span><span class="chip">腊牛羊肉</span><span class="chip">蜂蜜凉粽</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       【社区讨论】Bmob 后端云：Post / Comment 两张表
+       ============================================================ -->
+  <section id="community">
+    <h2 class="sec-title reveal">社区讨论</h2>
+    <p class="sec-desc reveal">聊聊你记忆里的长安味道</p>
+
+    <div class="post-form reveal">
+      <h3>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="#c9a227" aria-hidden="true"><path d="M3 17.2V21h3.8L17.9 9.9l-3.8-3.8L3 17.2zM20.7 7.1c.4-.4.4-1 0-1.4l-2.4-2.4c-.4-.4-1-.4-1.4 0l-1.8 1.8 3.8 3.8 1.8-1.8z"/></svg>
+        我要发帖
+      </h3>
+      <input id="inp-nickname" placeholder="你的昵称（必填）" maxlength="20">
+      <input id="inp-title"    placeholder="帖子标题（必填）" maxlength="50">
+      <textarea id="inp-content" placeholder="说点什么吧……（必填）" maxlength="500"></textarea>
+      <input id="inp-image"    placeholder="配图链接（选填，粘贴一个图片网址）">
+      <button class="btn" id="btn-publish" onclick="publishPost()">发 布</button>
+      <p class="form-note">发帖即表示友善交流 · 数据由 Bmob 后端云存储</p>
+    </div>
+
+    <div class="post-list" id="post-list">
+      <p class="list-tip">正在加载帖子……</p>
+    </div>
+  </section>
+
+  <button id="backtop" title="回到顶部" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <!-- 页脚：深墨色多栏布局（大厂官网范式） -->
+  <footer>
+    <div class="f-grid">
+      <div class="f-col">
+        <div class="f-logo">寻味长安</div>
+        <p class="f-slogan">一座可以吃掉的城市<br>十三朝古都的味觉地图</p>
+      </div>
+      <div class="f-col">
+        <h4>快速导航</h4>
+        <a href="#foods">长安美食</a>
+        <a href="#timeline">味道时间线</a>
+        <a href="#culture">饮食文化</a>
+        <a href="#map">街巷地图</a>
+        <a href="#community">社区讨论</a>
+      </div>
+      <div class="f-col">
+        <h4>关于本站</h4>
+        <p class="f-note">唐风夜色 × 现代设计系统</p>
+        <p class="f-note">HTML / CSS / JS 分离制作</p>
+        <p class="f-note">社区数据由 Bmob 后端云存储</p>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>寻味长安 · 西安美食文化主题页</span>
+      <span>十三朝古都 · 人间烟火</span>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       【脚本部分】所有 JS 已抽离到 js/img-utils.js 与 js/main.js
+       一、页面交互：进度条 / 滚动浮现 / 导航高亮 / 回到顶部
+       二、社区讨论：Bmob 增删查（发帖、点赞、评论）
+       ============================================================ -->
+  <script src="js/main.js"></script>
+</body>
+</html>

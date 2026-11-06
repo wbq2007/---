@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>悬停展开显示文字</title>
+<style>
+  .container {
+    display: flex;
+    height: 500px;
+    max-width: 1000px;
+    margin: 50px auto;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  .item {
+    position: relative;
+    flex: 1; /* 默认均分空间 */
+    transition: flex 0.5s ease; /* 滑动动画 */
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* 模拟背景图 */
+  .item:nth-child(1) { background-color: #5c4a3d; }
+  .item:nth-child(2) { background-color: #7c6a5d; }
+  .item:nth-child(3) { background-color: #9c8a7d; }
+  .item:nth-child(4) { background-color: #bcaaad; }
+
+  .item .content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .item h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .item p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+    /* ★ 修改点 1：使用 visibility 隐藏，而不是 display:none ★ */
+    visibility: hidden; 
+    opacity: 0;
+    transition: opacity 0.3s ease; /* 让文字渐显 */
+  }
+
+  /* 悬停状态 */
+  .item:hover {
+    flex: 3; /* 变宽 */
+  }
+
+  .item:hover p {
+    /* ★ 修改点 2：悬停时让文字显现 ★ */
+    visibility: visible;
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="item">
+    <div class="content">
+      <h3>传承现状</h3>
+      <p>中国瓷器传统工艺面临挑战与机遇，政府建立传承基地，培养年轻传承人。</p>
+    </div>
+  </div>
+  <div class="item">
+    <div class="content">
+      <h3>传承人群</h3>
+      <p>涵盖老一辈工艺大师以及年轻一代的设计师，共同推动瓷器文化发展。</p>
+    </div>
+  </div>
+  <div class="item">
+    <div class="content">
+      <h3>创新应用案例</h3>
+      <p>瓷器工艺被广泛应用于现代建筑、艺术装置以及日常生活中。</p>
+    </div>
+  </div>
+  <div class="item">
+    <div class="content">
+      <h3>保护政策</h3>
+      <p>社会各界积极采取措施，保护和传承这一古老的优秀传统工艺。</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

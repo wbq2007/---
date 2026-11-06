@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>404 · 寻味长安</title>
+  <meta name="description" content="页面不存在 —— 寻味长安，一座可以吃掉的城市。">
+  <!-- 浏览器标签页小图标：与首页一致的内嵌 SVG「味」字 -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23F53F3F'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23ffffff' font-family='serif'%3E味%3C/text%3E%3C/svg%3E">
+  <!-- 复用全站设计令牌与主题初始化（深浅色跟随用户上次选择） -->
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/img-utils.js"></script>
+
+  <style>
+    /* 404 页：全站令牌 + 少量页面私有样式 */
+    .nf { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .nf-card { text-align: center; }
+    .nf-code {
+      font-family: var(--serif);
+      font-size: clamp(96px, 22vw, 180px);
+      font-weight: 700; line-height: 1; letter-spacing: 6px;
+      color: var(--brand-6);
+    }
+    .nf-title {
+      font-size: clamp(22px, 4vw, 30px); font-weight: 600;
+      color: var(--text-1); letter-spacing: 2px;
+      margin: 20px 0 10px;
+    }
+    .nf-desc { font-size: 14px; color: var(--text-3); margin-bottom: 36px; }
+    .nf-btn {
+      display: inline-block; padding: 11px 32px; border-radius: var(--radius-s);
+      background: var(--brand-6); color: var(--on-brand);
+      font-size: 14px; font-weight: 500; letter-spacing: 1px;
+      transition: background-color .2s;
+    }
+    .nf-btn:hover { background: var(--brand-5); }
+    .nf-alt {
+      display: inline-block; padding: 11px 32px; margin-left: 12px;
+      border-radius: var(--radius-s);
+      border: 1px solid var(--border-2); color: var(--text-2);
+      font-size: 14px; letter-spacing: 1px;
+      transition: color .2s, border-color .2s;
+    }
+    .nf-alt:hover { color: var(--brand-6); border-color: var(--brand-4); }
+    .nf-tip { margin-top: 28px; font-size: 12px; color: var(--text-4); letter-spacing: 1px; }
+  </style>
+</head>
+<body>
+  <div class="nf">
+    <div class="nf-card">
+      <div class="nf-code">404</div>
+      <h1 class="nf-title">走错巷子了</h1>
+      <p class="nf-desc">这条巷子里没有你要找的味道，跟着本地人回首页准没错。</p>
+      <div>
+        <a class="nf-btn" href="/">回到首页</a>
+        <a class="nf-alt" href="javascript:history.back()">返回上一页</a>
+      </div>
+      <p class="nf-tip">寻味长安 · 一座可以吃掉的城市</p>
+    </div>
+  </div>
+</body>
+</html>

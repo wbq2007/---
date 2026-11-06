@@ -1,0 +1,840 @@
+/* ============================================================
+   寻味长安 · 全局样式 v3（Arco Design 色板版）
+   配色与组件规格直接取自字节跳动 Arco Design 官方发布的设计令牌：
+   - 品牌红：Arco Red 色阶（主色 red-6 #F53F3F）
+   - 中性色：Arco Gray（页面底 #F7F8FA / 边框 #E5E6EB / 文字 #1D2129 四级灰）
+   - 组件规格：按钮 4px 圆角无渐变、Tag 2px 圆角、卡片 1px 边框低阴影、
+     标题 600 字重零字距、正文 14px
+   - 金色/暖色仅保留在首屏夜色插画与挂轴海报两处「品牌时刻」，
+     UI 界面层零装饰：无眉题、无水印、无发光、无渐变按钮
+   - 深浅双主题：html[data-theme] 切换整套 token
+   ============================================================ */
+
+/* ---------- 设计令牌 · 浅色主题 ----------
+   色板直接取自字节跳动 Arco Design 官方发布的色阶：
+   品牌红 = Arco Red（red-6 #F53F3F 为主色），
+   中性灰 = Arco Gray（bg #F7F8FA / border #E5E6EB / text #1D2129 起四级） */
+:root {
+  color-scheme: light;
+
+  /* 品牌色 · Arco Red 10 级色阶 */
+  --brand-1:  #FFECE8;
+  --brand-2:  #FDCDC5;
+  --brand-3:  #FBACA3;
+  --brand-4:  #F78982;
+  --brand-5:  #F26461;
+  --brand-6:  #F53F3F;   /* 主色：按钮 / 激活态 / 强调 */
+  --brand-7:  #CB272D;
+  --brand-8:  #A1151E;
+  --brand-9:  #770813;
+  --brand-10: #4D000A;
+  --on-brand: #FFFFFF;   /* 品牌色上的文字 */
+  --ring:     rgba(245, 63, 63, .1);   /* 焦点光环 */
+
+  /* 中性色 · Arco Gray 体系 */
+  --bg-page:  #F7F8FA;   /* 页面底（gray-1） */
+  --bg-card:  #FFFFFF;   /* 卡片 / 白色分区 */
+  --bg-muted: #F2F3F5;   /* 填充底（fill-2） */
+  --bg-glass: rgba(255, 255, 255, .8);
+  --border-1: #E5E6EB;   /* 边框（gray-3） */
+  --border-2: #C9CDD4;   /* 深边框（gray-4） */
+  --text-1: #1D2129;     /* 一级文字（gray-10） */
+  --text-2: #4E5969;     /* 二级文字（gray-8） */
+  --text-3: #86909C;     /* 三级文字（gray-6） */
+  --text-4: #C9CDD4;     /* 弱化文字（gray-4） */
+
+  /* 海拔阴影：大厂克制风格，低不透明度小扩散 */
+  --shadow-1: 0 1px 2px rgba(29, 33, 41, .04);
+  --shadow-2: 0 4px 12px rgba(29, 33, 41, .06);
+  --shadow-3: 0 8px 24px rgba(29, 33, 41, .08);
+
+  /* 圆角：Arco 规范的小圆角 */
+  --radius-s: 4px;
+  --radius-m: 6px;
+  --radius-l: 8px;
+
+  /* 唐风固定色：首屏夜色 / 灯笼 / 挂轴 / 页脚专用，不随主题切换 */
+  --tang-red:        #7A1F1F;
+  --tang-red-deep:   #5A1414;
+  --tang-gold:       #C9A227;
+  --tang-gold-light: #E8C87A;
+  --tang-cream:      #F5E6C8;
+
+  /* 字体：大厂标准系统无衬线 + 衬线仅用于文化场景 */
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --serif: "Noto Serif SC", "Source Han Serif SC", "STZhongsong", "SimSun", serif;
+}
+
+/* ---------- 设计令牌 · 深色主题（Arco Dark 规范） ---------- */
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* 深色下色阶整体提亮反转：1 为深底，6 为主色，7+ 作强调文字 */
+  --brand-1:  #4A1F1B;
+  --brand-2:  #652923;
+  --brand-3:  #843830;
+  --brand-4:  #A84B3F;
+  --brand-5:  #CF6254;
+  --brand-6:  #F76964;
+  --brand-7:  #F98D86;
+  --brand-8:  #FBACA3;
+  --brand-9:  #FDCDC5;
+  --brand-10: #FEECE8;
+  --on-brand: #FFFFFF;
+  --ring:     rgba(247, 105, 100, .16);
+
+  --bg-page:  #17171A;   /* dark gray-1 */
+  --bg-card:  #232324;   /* dark gray-2 */
+  --bg-muted: #2A2A2B;   /* dark gray-3 */
+  --bg-glass: rgba(23, 23, 26, .8);
+  --border-1: #333335;
+  --border-2: #4E4E52;
+  --text-1: #E8E8E8;
+  --text-2: #B5B5BA;
+  --text-3: #86868C;
+  --text-4: #5C5C63;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, .40);
+  --shadow-2: 0 4px 12px rgba(0, 0, 0, .45);
+  --shadow-3: 0 8px 24px rgba(0, 0, 0, .50);
+}
+
+/* ---------- 基础 ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 68px; }
+
+body {
+  font-family: var(--sans);
+  font-size: 14px;             /* 大厂标准正文字号 */
+  background: var(--bg-page);
+  color: var(--text-1);
+  line-height: 1.65;
+  overflow-x: hidden;
+  transition: background-color .3s, color .3s;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* 标题默认无衬线（大厂风格）；衬线仅用于 .serif 与特定文化元素 */
+h1, h2, h3, h4 { font-family: var(--sans); }
+.serif { font-family: var(--serif); }
+
+::selection { background: var(--brand-6); color: var(--on-brand); }
+
+/* ---------- 顶部滚动进度条 ---------- */
+#progress {
+  position: fixed; top: 0; left: 0; z-index: 300;
+  height: 2px; width: 0;
+  background: var(--brand-6);
+  transition: width .1s linear;
+}
+
+/* ---------- 顶部导航 · 玻璃拟态 ---------- */
+header {
+  position: sticky; top: 0; z-index: 100;
+  height: 60px; padding: 0 6%;
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--bg-glass);
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  border-bottom: 1px solid var(--border-1);
+  color: var(--text-1);
+}
+header .logo {
+  font-size: 18px; font-weight: 700; letter-spacing: 3px;
+  display: flex; align-items: center; gap: 10px; white-space: nowrap;
+}
+/* Logo 印章：品牌色实底 + 白字（大厂 logo mark 做法，不用渐变） */
+header .logo::before {
+  content: "味"; font-family: var(--serif);
+  font-size: 15px; letter-spacing: 0; font-weight: 600;
+  width: 28px; height: 28px; border-radius: var(--radius-m);
+  background: var(--brand-6);
+  color: #FFFFFF;
+  display: flex; align-items: center; justify-content: center;
+}
+.header-right { display: flex; align-items: center; gap: 8px; min-width: 0; }
+header nav { display: flex; align-items: center; }
+header nav a {
+  margin-left: 4px; padding: 6px 14px;
+  font-size: 14px; color: var(--text-2); border-radius: 999px;
+  transition: color .2s, background-color .2s;
+  white-space: nowrap;
+}
+header nav a:hover { color: var(--text-1); background: var(--bg-muted); }
+/* 激活态：品牌色胶囊（大厂导航通用范式） */
+header nav a.active {
+  color: var(--brand-6); background: var(--brand-1); font-weight: 600;
+}
+
+/* 深浅主题切换按钮 */
+.theme-toggle {
+  width: 36px; height: 36px; flex: 0 0 36px;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--border-2); background: transparent;
+  color: var(--text-2); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: color .2s, border-color .2s, background-color .2s;
+}
+.theme-toggle:hover {
+  color: var(--brand-6); border-color: var(--brand-4); background: var(--brand-1);
+}
+.theme-toggle svg { width: 18px; height: 18px; }
+.theme-toggle .icon-moon { fill: currentColor; }
+/* 浅色主题显示月亮（点击入夜），深色主题显示太阳（点击天亮） */
+.theme-toggle .icon-sun  { display: none; }
+html[data-theme="dark"] .theme-toggle .icon-sun  { display: block; }
+html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+/* ---------- 首屏 · 长安夜色（品牌时刻，两种主题下均为夜色） ----------
+   暗红夜空渐变 + 内嵌 SVG 场景，全部矢量绘制，不需要图片文件 */
+#hero {
+  position: relative;
+  min-height: 94vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 90px 6% 210px;
+  background:
+    radial-gradient(120% 90% at 50% 118%, rgba(255,140,70,.22), transparent 55%),
+    radial-gradient(90% 70% at 50% -10%, rgba(0,0,0,.55), transparent 60%),
+    linear-gradient(180deg, #170808 0%, #3a1010 40%, #5c1a13 72%, #7c2718 100%);
+  overflow: hidden;
+}
+#hero .scene {
+  position: absolute; left: 0; bottom: 0; width: 100%;
+  height: auto; z-index: 1; pointer-events: none;
+}
+#hero .hero-inner { position: relative; z-index: 3; }
+
+/* 挂灯笼 */
+.lantern-wrap {
+  position: absolute; top: 0; z-index: 2;
+  transform-origin: top center;
+  animation: sway 5.2s ease-in-out infinite;
+}
+.lantern-wrap.l1 { left: 9%; }
+.lantern-wrap.l2 { right: 12%; animation-delay: -2.6s; }
+.lantern-string { width: 2px; height: 74px; margin: 0 auto; background: #6b4a2a; }
+.lantern {
+  width: 58px; height: 70px; border-radius: 50% / 46%;
+  background: radial-gradient(circle at 34% 30%, #ff7a63, #d33a2a 58%, #9c1f16);
+  box-shadow: 0 0 34px rgba(255,90,60,.5), inset 0 -8px 14px rgba(0,0,0,.35);
+  position: relative;
+}
+.lantern::before, .lantern::after {
+  content: ""; position: absolute; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(#e8c87a, #b08d2a); border-radius: 3px;
+}
+.lantern::before { top: -7px; width: 26px; height: 8px; }
+.lantern::after  { bottom: -7px; width: 22px; height: 7px; }
+.lantern .tassel {
+  position: absolute; left: 50%; top: 100%; transform: translateX(-50%);
+  width: 3px; height: 26px; margin-top: 5px;
+  background: linear-gradient(#e8c87a, rgba(232,200,122,.15));
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(-3.5deg); }
+  50%      { transform: rotate(3.5deg); }
+}
+
+/* 首屏文字：大字号排版（文化场景保留衬线书法感） */
+#hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(48px, 9vw, 96px);
+  letter-spacing: clamp(8px, 2vw, 24px);
+  color: #FFFFFF; font-weight: 700;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .45);
+  margin-bottom: 6px;
+  animation: fadeUp 1s ease .1s both;
+}
+#hero .sub {
+  font-size: clamp(15px, 2.2vw, 18px);
+  color: rgba(255, 255, 255, .75); letter-spacing: 2px;
+  margin: 14px 0 40px;
+  animation: fadeUp 1s ease .35s both;
+}
+/* 数据条：无容器装饰，细分隔线 + 白色数字（大厂数据展示范式） */
+.hero-stats {
+  display: flex; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 44px;
+  animation: fadeUp 1s ease .5s both;
+}
+.hero-stats > div { padding: 0 clamp(20px, 4vw, 40px); }
+.hero-stats > div + div { border-left: 1px solid rgba(255, 255, 255, .18); }
+.hero-stats .num {
+  font-size: clamp(24px, 3.6vw, 32px);
+  color: #FFFFFF; font-weight: 600; line-height: 1.3;
+}
+.hero-stats .label { font-size: 13px; color: rgba(255, 255, 255, .55); letter-spacing: 1px; }
+
+.hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeUp 1s ease .65s both; }
+.btn-gold {
+  display: inline-block; padding: 12px 36px; border-radius: var(--radius-s);
+  background: var(--brand-6);
+  color: var(--on-brand); font-weight: 500; font-size: 15px; letter-spacing: 1px;
+  transition: background-color .2s;
+}
+.btn-gold:hover { background: var(--brand-5); }
+.btn-ghost {
+  display: inline-block; padding: 12px 36px; border-radius: var(--radius-s);
+  border: 1px solid rgba(255, 255, 255, .4); color: #FFFFFF;
+  background: transparent;
+  font-size: 15px; letter-spacing: 1px;
+  transition: background-color .2s, border-color .2s;
+}
+.btn-ghost:hover { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .6); }
+
+.scroll-hint {
+  position: absolute; bottom: 58px; left: 50%; transform: translateX(-50%);
+  z-index: 3; color: rgba(255, 255, 255, .5); font-size: 13px; letter-spacing: 1px;
+  animation: bob 2.2s ease-in-out infinite;
+}
+@keyframes bob { 0%,100%{ transform: translate(-50%,0);} 50%{ transform: translate(-50%,8px);} }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+
+/* SVG 场景里的小动画 */
+.tw   { animation: twinkle 3s ease-in-out infinite; }
+.tw2  { animation-delay: 1.1s; }
+.tw3  { animation-delay: 2.1s; }
+@keyframes twinkle { 0%,100%{opacity:.2} 50%{opacity:1} }
+.cloud  { animation: drift 17s ease-in-out infinite alternate; }
+.cloud2 { animation: drift 23s ease-in-out infinite alternate-reverse; }
+@keyframes drift { from { transform: translateX(0); } to { transform: translateX(48px); } }
+.win { animation: glowPulse 4.2s ease-in-out infinite; }
+@keyframes glowPulse { 0%,100%{opacity:.4} 50%{opacity:.9} }
+/* 金粉：缓慢上浮的小光点 */
+.dust { animation: float 9s ease-in-out infinite; }
+.dust.d2 { animation-delay: -3s; }
+.dust.d3 { animation-delay: -6s; }
+@keyframes float {
+  0%,100% { transform: translateY(0);     opacity: .15; }
+  50%     { transform: translateY(-30px); opacity: .7; }
+}
+
+/* ---------- 通用区块：白 / 浅灰交替的大厂节奏 ---------- */
+section { padding: 96px 6%; position: relative; background: var(--bg-page); }
+#timeline, #map { background: var(--bg-card); }
+
+/* 区块头：大标题 + 描述（大厂做法：无装饰元素，靠字号字重和留白分层） */
+.sec-title {
+  text-align: center; font-size: clamp(26px, 3.5vw, 32px); color: var(--text-1);
+  letter-spacing: 1px; margin-bottom: 8px; font-weight: 600;
+}
+.sec-desc { text-align: center; font-size: 14px; color: var(--text-3); margin-bottom: 48px; }
+
+/* ---------- 滚动浮现动画 ---------- */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ---------- 长安美食 · Bento 便当盒网格 ----------
+   12 列栅格：招牌卡（羊肉泡馍 / 甑糕）横跨 6 列并改为左图右文，
+   其余卡片各占 3 列，两行拼出 [6+3+3] / [3+3+6] 的错落节奏 */
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px; max-width: 1200px; margin: 0 auto;
+}
+.food-card {
+  grid-column: span 3;
+  background: var(--bg-card); border-radius: var(--radius-l); overflow: hidden;
+  border: 1px solid var(--border-1);
+  box-shadow: var(--shadow-1);
+  transition: transform .25s, box-shadow .25s, border-color .25s, background-color .3s;
+}
+.food-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+  border-color: var(--border-2);
+}
+.food-card.bento-wide { grid-column: span 6; display: flex; }
+.food-card.bento-wide .art { position: relative; flex: 1.15; height: auto; min-height: 250px; }
+.food-card.bento-wide .info {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  padding: 28px 30px;
+}
+.food-card.bento-wide h3 { font-size: 18px; }
+.food-card.bento-wide p  { font-size: 15px; }
+
+/* 招牌角标：照片上的中性深色小标签 */
+.card-badge {
+  position: absolute; top: 12px; left: 12px; z-index: 3;
+  padding: 3px 10px; border-radius: 2px;
+  background: rgba(29, 33, 41, .6);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+  color: #FFFFFF; font-size: 12px; letter-spacing: 1px;
+}
+
+/* 卡片顶部图片位：<img> 真实照片优先，缺图时显示虚线占位框。
+   把图片按占位框里标注的文件名放进 images/ 即自动淡入覆盖 */
+.art { position: relative; height: 190px; overflow: hidden; background: var(--bg-muted); }
+.art img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 2;
+  opacity: 0; transition: opacity .45s, transform .5s;
+}
+.food-card:hover .art img { transform: scale(1.05); }
+
+/* ---------- 图片占位框：虚线内框 + 照片图标 + 文件名提示 ---------- */
+.ph {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 5px; color: var(--text-4); background: var(--bg-muted);
+  transition: background-color .3s;
+}
+.ph::before {
+  content: ""; position: absolute; inset: 10px;
+  border: 1px dashed var(--border-2); border-radius: var(--radius-s);
+  pointer-events: none;
+}
+.ph-ico {
+  width: 34px; height: 34px;
+  fill: none; stroke: currentColor; stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+  opacity: .7;
+}
+.ph-name { font-size: 12px; letter-spacing: 1px; font-family: Consolas, Menlo, monospace; }
+.ph-hint { font-size: 11px; letter-spacing: 1px; opacity: .7; }
+
+.food-card .info { padding: 20px 22px 24px; }
+.food-card h3 {
+  color: var(--text-1); margin-bottom: 2px; font-size: 16px; font-weight: 600; letter-spacing: 0;
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+}
+.food-card h3 .pinyin {
+  font-size: 11px; color: var(--text-4); letter-spacing: 1.5px;
+  font-family: var(--sans); font-weight: 400; text-transform: uppercase;
+}
+.food-card .chips { margin: 10px 0 12px; }
+/* 标签：Arco Tag 规格（2px 圆角、浅色底、字号 12） */
+.chip {
+  display: inline-block; font-size: 12px; letter-spacing: 0;
+  color: var(--brand-7); background: var(--brand-1);
+  border: none; border-radius: 2px;
+  padding: 1px 8px; margin: 0 6px 4px 0;
+}
+.food-card p { font-size: 14px; color: var(--text-2); }
+
+/* ---------- 味道时间线 ---------- */
+.timeline { position: relative; max-width: 920px; margin: 0 auto; padding: 10px 0; }
+.timeline::before {
+  content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+  background: var(--border-1);
+  transform: translateX(-50%);
+}
+.t-item { position: relative; width: 50%; padding: 0 44px 46px 0; }
+.t-item:nth-child(even) { margin-left: 50%; padding: 0 0 46px 44px; }
+/* 节点：白心红环 + 品牌色光环 */
+.t-item::before {
+  content: ""; position: absolute; top: 8px; right: -8px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--bg-card);
+  border: 3px solid var(--brand-6);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+.t-item:nth-child(even)::before { right: auto; left: -8px; }
+.t-card {
+  background: var(--bg-card); border: 1px solid var(--border-1);
+  border-radius: var(--radius-m); padding: 20px 24px;
+  box-shadow: var(--shadow-1);
+  position: relative; overflow: hidden;
+  transition: transform .25s, box-shadow .25s, background-color .3s, border-color .3s;
+}
+.t-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
+.t-era {
+  display: inline-block; font-size: 12px; letter-spacing: 0; font-weight: 500;
+  color: var(--brand-7); background: var(--brand-1);
+  border-radius: 2px; padding: 2px 10px; margin-bottom: 10px;
+}
+.t-card h3 { color: var(--text-1); font-size: 16px; font-weight: 600; letter-spacing: 0; margin-bottom: 4px; }
+.t-card p  { font-size: 14px; color: var(--text-2); }
+@media (max-width: 720px) {
+  .timeline::before { left: 10px; transform: none; }
+  .t-item, .t-item:nth-child(even) { width: 100%; margin-left: 0; padding: 0 0 36px 38px; }
+  .t-item::before, .t-item:nth-child(even)::before { left: 3px; right: auto; }
+}
+
+/* ---------- 饮食文化（左文 + 右挂轴海报） ---------- */
+.culture-wrap {
+  display: flex; gap: 48px; align-items: center; flex-wrap: wrap;
+  max-width: 1080px; margin: 0 auto;
+}
+.culture-wrap .text { flex: 1.4; min-width: 280px; }
+.culture-wrap .text h3 {
+  color: var(--text-1); margin: 24px 0 6px; font-size: 16px; font-weight: 600; letter-spacing: 0;
+}
+.culture-wrap .text h3:first-child { margin-top: 0; }
+.culture-wrap .text p { font-size: 14px; color: var(--text-2); }
+/* 左侧文字下方的引言条：品牌色竖线 + 中性浅底 */
+.culture-quote {
+  margin-top: 28px; padding: 14px 20px;
+  border-left: 3px solid var(--brand-6);
+  background: var(--bg-muted);
+  border-radius: 0 var(--radius-m) var(--radius-m) 0;
+  font-family: var(--serif); font-size: 14px; color: var(--text-2); letter-spacing: 0;
+}
+
+/* 文化区图片位：竖图更佳，放入 images/culture.jpg 后自动淡入 */
+.culture-photo {
+  position: relative; margin-top: 26px;
+  height: 300px; border-radius: var(--radius-l); overflow: hidden;
+  border: 1px solid var(--border-1); box-shadow: var(--shadow-1);
+  transition: box-shadow .25s, border-color .3s;
+}
+.culture-photo:hover { box-shadow: var(--shadow-2); }
+.culture-photo img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 2;
+  opacity: 0; transition: opacity .45s, transform .5s;
+}
+.culture-photo:hover img { transform: scale(1.03); }
+
+/* 挂轴海报：文化时刻，绢面固定用唐风暗红 + 鎏金（不随主题切换） */
+.poster-col { flex: 1; min-width: 300px; display: flex; flex-direction: column; align-items: center; }
+.poster-rod {
+  width: 108%; max-width: 380px; height: 14px; border-radius: 8px;
+  background: linear-gradient(180deg, #8a6238, #5f3f24 60%, #4a2f1a);
+  box-shadow: 0 3px 8px rgba(0,0,0,.3);
+  position: relative; z-index: 2;
+}
+.poster-rod::before, .poster-rod::after {
+  content: ""; position: absolute; top: -3px; width: 10px; height: 20px;
+  border-radius: 5px; background: linear-gradient(180deg, var(--tang-gold-light), #a5842c);
+}
+.poster-rod::before { left: -6px; }
+.poster-rod::after  { right: -6px; }
+.poster {
+  width: 88%; max-width: 330px; min-height: 400px; margin: -4px 0;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(232,200,122,.14), transparent 55%),
+    linear-gradient(165deg, var(--tang-red-deep), var(--tang-red) 60%, #8a2a1e);
+  border-left: 1px solid rgba(232,200,122,.5);
+  border-right: 1px solid rgba(232,200,122,.5);
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 0 46px rgba(0,0,0,.35), 0 10px 26px rgba(61,18,18,.3);
+}
+/* 竖排双列：writing-mode 下普通块级 <p> 自动从右往左排成两列 */
+.poster-text {
+  writing-mode: vertical-rl;
+  font-family: var(--serif); font-size: 30px; letter-spacing: 16px;
+  color: var(--tang-cream); text-shadow: 0 2px 10px rgba(0,0,0,.35);
+  padding: 34px 0;
+}
+.poster-text p + p { margin-right: 34px; }   /* 两列之间的间距 */
+.poster-seal {
+  position: absolute; left: 24px; bottom: 26px;
+  width: 54px; height: 54px; border-radius: var(--radius-s);
+  background: #b03028; border: 2px solid rgba(232,200,122,.85);
+  color: var(--tang-cream); font-family: var(--serif); font-size: 20px; font-weight: 700;
+  writing-mode: vertical-rl; letter-spacing: 4px;
+  display: flex; align-items: center; justify-content: center;
+  transform: rotate(-5deg);
+  box-shadow: 0 3px 10px rgba(0,0,0,.35);
+}
+.poster-note {
+  position: absolute; right: 18px; top: 16px;
+  color: rgba(245,230,200,.5); font-size: 12px; letter-spacing: 3px;
+  writing-mode: vertical-rl;
+}
+
+/* ---------- 街巷味道地图 · 横向扩展手风琴 ----------
+   交互框架：flex 均分 + hover 放大挤压兄弟面板（flex 1 -> 3.2，0.45s 过渡）。
+   面板 = 巷子实拍图位（深色底衬），收起态竖排街名，展开态底部浮现图文 */
+.street-accordion {
+  display: flex; gap: 2px;
+  height: 440px; max-width: 1200px; margin: 0 auto;
+  border-radius: var(--radius-l); overflow: hidden;
+  background: var(--border-1);          /* 缝隙底色即分隔线 */
+  box-shadow: var(--shadow-1);
+}
+.street-panel {
+  position: relative; flex: 1; min-width: 0; overflow: hidden;
+  background: #232324;                  /* 深色底衬：未放照片时白字也可读 */
+  cursor: pointer;
+  transition: flex .45s ease-in-out;    /* 核心：给 flex 变化加过渡动画 */
+}
+.street-panel:hover,
+.street-panel:focus-visible,
+.street-panel.active { flex: 3.2; }     /* 核心：悬停面板变宽，挤压其他面板 */
+.street-panel:focus-visible { outline: 2px solid var(--brand-6); outline-offset: -2px; }
+
+/* 巷子照片位：沿用全站 imgOk/imgFail 机制 */
+.street-panel img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 2;
+  opacity: 0; transition: opacity .45s;
+}
+/* 占位框在手风琴内使用深色变体 */
+.street-panel .ph { background: #232324; color: rgba(255, 255, 255, .45); }
+.street-panel .ph::before { border-color: rgba(255, 255, 255, .22); }
+
+/* 收起态：居中竖排街名 */
+.sp-title-v {
+  position: absolute; z-index: 3; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  writing-mode: vertical-rl; white-space: nowrap;
+  font-size: 17px; font-weight: 600; letter-spacing: 5px;
+  color: #FFFFFF; text-shadow: 0 1px 10px rgba(0, 0, 0, .55);
+  transition: opacity .25s;
+  pointer-events: none;
+}
+.street-panel:hover .sp-title-v,
+.street-panel:focus-visible .sp-title-v,
+.street-panel.active .sp-title-v { opacity: 0; }
+
+/* 展开态：底部图文区，渐变暗罩保证照片上可读 */
+.sp-content {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+  padding: 44px 22px 20px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .55) 45%, rgba(0, 0, 0, .75));
+  color: #FFFFFF;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity .3s .08s, transform .3s .08s;
+  pointer-events: none;
+}
+.street-panel:hover .sp-content,
+.street-panel:focus-visible .sp-content,
+.street-panel.active .sp-content { opacity: 1; transform: none; pointer-events: auto; }
+.sp-content h3 {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 16px; font-weight: 600; color: #FFFFFF; margin-bottom: 6px;
+}
+.sp-content p { font-size: 14px; color: rgba(255, 255, 255, .82); margin-bottom: 12px; max-width: 560px; }
+/* 图标底座：品牌红实底方托 */
+.pin-box {
+  width: 30px; height: 30px; flex: 0 0 30px;
+  border-radius: var(--radius-m);
+  background: var(--brand-6); color: #FFFFFF;
+  display: flex; align-items: center; justify-content: center;
+}
+.pin { width: 16px; height: 16px; }
+.sp-content .tags .chip { background: rgba(255, 255, 255, .16); color: #FFFFFF; }
+
+@media (max-width: 1024px) {
+  .street-accordion { height: 380px; }
+}
+/* 移动端：纵向堆叠、内容直出（触屏没有 hover，不做收起态） */
+@media (max-width: 768px) {
+  .street-accordion {
+    flex-direction: column; height: auto; gap: 10px;
+    background: transparent; box-shadow: none;
+    border-radius: 0; overflow: visible;
+  }
+  .street-panel, .street-panel:hover, .street-panel.active {
+    flex: none; height: 230px; border-radius: var(--radius-l);
+  }
+  .sp-title-v { display: none; }
+  .sp-content { opacity: 1; transform: none; pointer-events: auto; padding: 36px 18px 16px; }
+}
+
+/* ---------- 社区讨论模块 ---------- */
+.post-form {
+  max-width: 680px; margin: 0 auto 48px;
+  background: var(--bg-card); padding: 28px 30px; border-radius: var(--radius-l);
+  border: 1px solid var(--border-1);
+  box-shadow: var(--shadow-2);
+  transition: background-color .3s, border-color .3s;
+}
+.post-form h3 {
+  color: var(--text-1); margin-bottom: 18px; font-size: 16px; font-weight: 600; letter-spacing: 0;
+  display: flex; align-items: center; gap: 8px;
+}
+.post-form h3 svg { fill: var(--brand-6); }
+.post-form input, .post-form textarea {
+  width: 100%; padding: 11px 14px; margin-bottom: 12px;
+  border: 1px solid var(--border-1); border-radius: var(--radius-s);
+  font-size: 14px; font-family: inherit;
+  background: var(--bg-card); color: var(--text-1);
+  transition: border-color .2s, box-shadow .2s;
+}
+.post-form input::placeholder, .post-form textarea::placeholder { color: var(--text-4); }
+/* 焦点态：品牌色描边 + 光环（大厂输入框标准交互） */
+.post-form input:focus, .post-form textarea:focus {
+  outline: none; border-color: var(--brand-6);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+.post-form textarea { min-height: 96px; resize: vertical; }
+.form-note { font-size: 12px; color: var(--text-4); margin: 12px 0 0; letter-spacing: 1px; }
+
+/* 通用按钮：品牌色实心、4px 圆角、无渐变无投影（Arco Button 规格） */
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 20px;
+  background: var(--brand-6); color: var(--on-brand);
+  border: none; border-radius: var(--radius-s); cursor: pointer;
+  font-size: 14px; font-weight: 500; letter-spacing: 0; font-family: inherit;
+  transition: background-color .2s, transform .1s;
+}
+.btn svg { width: 15px; height: 15px; fill: currentColor; }
+.btn:hover { background: var(--brand-5); }
+.btn:active { transform: scale(.96); }
+.btn:disabled { background: var(--bg-muted); color: var(--text-4); cursor: not-allowed; }
+.btn.pop { animation: pop .35s ease; }
+@keyframes pop { 40% { transform: scale(1.18); } }
+/* 次级按钮（评论）：中性浅底 */
+.post-actions .btn-comment { background: var(--bg-muted); color: var(--text-2); }
+.post-actions .btn-comment:hover { background: var(--border-1); color: var(--text-1); }
+
+/* 帖子列表 */
+.post-list { max-width: 680px; margin: 0 auto; }
+.list-tip   { text-align: center; color: var(--text-3); }
+.list-error { text-align: center; color: var(--brand-6); }
+.post-item {
+  background: var(--bg-card); border: 1px solid var(--border-1);
+  border-radius: var(--radius-l); padding: 22px 24px;
+  margin-bottom: 18px; box-shadow: var(--shadow-1);
+  transition: box-shadow .25s, background-color .3s, border-color .3s;
+}
+.post-item:hover { box-shadow: var(--shadow-2); }
+.post-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.post-avatar {
+  width: 40px; height: 40px; border-radius: 50%; flex: 0 0 40px;
+  background: var(--brand-6);
+  color: #FFFFFF;
+  font-family: var(--serif); font-size: 18px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.post-head .who b { color: var(--text-1); font-size: 15px; }
+.post-head .who .meta { font-size: 12px; color: var(--text-4); }
+.post-item h4 { color: var(--text-1); font-size: 16px; font-weight: 600; margin-bottom: 6px; letter-spacing: 0; }
+.post-item .content { font-size: 14px; color: var(--text-2); white-space: pre-wrap; }
+.post-item .post-img { margin-top: 12px; }
+.post-item .post-img .art { height: 210px; border-radius: var(--radius-s); background: var(--bg-muted); }
+.post-actions { margin-top: 14px; display: flex; gap: 12px; }
+
+/* 评论区 */
+.comment-box {
+  display: none; margin-top: 14px; padding-top: 14px;
+  border-top: 1px dashed var(--border-2);
+}
+.comment-item {
+  font-size: 13px; color: var(--text-2);
+  background: var(--bg-muted); border-radius: var(--radius-s);
+  padding: 9px 12px; margin-bottom: 8px;
+}
+.comment-item b { color: var(--brand-6); }
+.comment-item .ctime { color: var(--text-4); font-size: 11px; margin-left: 6px; }
+.comment-form { display: flex; gap: 8px; margin-top: 8px; }
+.comment-form input {
+  flex: 1; padding: 9px 12px; font-size: 13px;
+  border: 1px solid var(--border-1); border-radius: var(--radius-s);
+  background: var(--bg-card); color: var(--text-1);
+  font-family: inherit; transition: border-color .2s, box-shadow .2s;
+}
+.comment-form input:focus { outline: none; border-color: var(--brand-6); box-shadow: 0 0 0 3px var(--ring); }
+.comment-form input.nick { flex: 0 0 110px; }
+
+/* ---------- 回到顶部按钮：底部居中悬浮、44px 触控标准、SVG 箭头 ---------- */
+#backtop {
+  position: fixed; left: 50%; right: auto; bottom: 32px; z-index: 160;
+  width: 44px; height: 44px; border-radius: var(--radius-m);
+  border: 1px solid var(--border-1);
+  background: var(--bg-card);
+  color: var(--text-2); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-2);
+  opacity: 0; pointer-events: none;
+  transform: translate(-50%, 14px);
+  transition: opacity .3s, transform .3s, color .2s, border-color .2s;
+}
+#backtop svg {
+  width: 18px; height: 18px;
+  fill: none; stroke: currentColor; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+#backtop.show { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+#backtop:hover { color: var(--brand-6); border-color: var(--brand-4); }
+#backtop:active { transform: translate(-50%, 0) scale(.94); }
+
+/* ---------- 页脚：Arco 深灰多栏（大厂官网范式，无暖色渲染） ---------- */
+footer {
+  background: #17171A;
+  border-top: 1px solid rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .65);
+  padding: 64px 6% 0;
+}
+.f-grid {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.6fr 1fr 1.2fr; gap: 48px;
+  padding-bottom: 48px;
+}
+.f-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 18px; font-weight: 600;
+  letter-spacing: 2px; color: #FFFFFF; margin-bottom: 14px;
+}
+.f-logo::before {
+  content: "味"; font-family: var(--serif); font-size: 15px; letter-spacing: 0;
+  width: 28px; height: 28px; border-radius: var(--radius-m);
+  background: var(--brand-6);
+  color: #FFFFFF;
+  display: flex; align-items: center; justify-content: center;
+}
+.f-slogan { font-size: 13px; line-height: 2; letter-spacing: 1px; color: rgba(255, 255, 255, .45); }
+.f-col h4 {
+  font-size: 14px; font-weight: 500; letter-spacing: 1px;
+  color: rgba(255, 255, 255, .9); margin-bottom: 16px;
+}
+.f-col a {
+  display: block; font-size: 13px; letter-spacing: 0;
+  color: rgba(255, 255, 255, .55); margin-bottom: 11px;
+  transition: color .2s;
+}
+.f-col a:hover { color: #FFFFFF; }
+.f-note { font-size: 13px; letter-spacing: 0; margin-bottom: 11px; color: rgba(255, 255, 255, .45); }
+.f-bottom {
+  max-width: 1200px; margin: 0 auto;
+  border-top: 1px solid rgba(255, 255, 255, .08);
+  padding: 20px 0 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px; flex-wrap: wrap;
+  font-size: 12px; letter-spacing: 0; color: rgba(255, 255, 255, .35);
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1024px) {
+  /* Bento 降级为两列：普通卡 6 列，招牌卡整行 */
+  .food-card { grid-column: span 6; }
+  .food-card.bento-wide { grid-column: span 12; }
+}
+@media (max-width: 768px) {
+  section { padding: 72px 5%; }
+  .header-right { gap: 4px; }
+  header nav a { padding: 5px 10px; font-size: 13px; }
+  .f-grid { grid-template-columns: 1fr; gap: 36px; }
+}
+@media (max-width: 640px) {
+  header { padding: 0 4%; }
+  header .logo { font-size: 16px; letter-spacing: 2px; }
+  /* 导航横向滑动，隐藏滚动条 */
+  header nav { overflow-x: auto; scrollbar-width: none; }
+  header nav::-webkit-scrollbar { display: none; }
+  header nav a { margin-left: 0; padding: 5px 9px; font-size: 12.5px; }
+  .lantern-wrap.l1 { left: 3%; } .lantern-wrap.l2 { right: 4%; }
+  .lantern { width: 42px; height: 52px; }
+  .lantern-string { height: 48px; }
+  .hero-stats > div { padding: 0 clamp(14px, 3vw, 24px); }
+  /* 单列：招牌卡恢复竖排 */
+  .food-card, .food-card.bento-wide { grid-column: span 12; }
+  .food-card.bento-wide { display: block; }
+  .food-card.bento-wide .art { height: 200px; min-height: 0; }
+  .food-card.bento-wide .info { padding: 20px 22px 24px; }
+  .poster-text { font-size: 25px; letter-spacing: 12px; }
+  .poster-text p + p { margin-right: 24px; }
+  /* 移动端：居中贴底、避开 iPhone 安全区 */
+  #backtop {
+    left: 50%;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    width: 46px; height: 46px;
+  }
+}
+
+/* ---------- 无障碍：尊重系统减弱动态偏好 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; }
+}
