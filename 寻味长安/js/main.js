@@ -288,4 +288,20 @@ document.getElementById("theme-toggle").addEventListener("click", () => {
   applyTheme(next);
 });
 
+/* ---------- 8. 点击任意非文字区域，取消文字选中 ----------
+   浏览器默认行为下，点按背景/图片/按钮等已经会收起选区；
+   这里显式补齐，确保"任何地方"都能取消（拖拽选字不受影响，
+   因为拖动结束后 click 的目标是文字元素本身）。 */
+document.addEventListener("click", e => {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed || sel.rangeCount === 0) return;
+  const t = e.target;
+  if (!(t instanceof Element)) return;
+  if (t.closest("input, textarea, select, [contenteditable='true']")) return;
+  const TEXT_TAGS = ["P","H1","H2","H3","H4","H5","H6","LI","TD","TH",
+                     "PRE","CODE","BLOCKQUOTE","SPAN","A","B","STRONG","EM",
+                     "I","LABEL","SMALL"];
+  if (!TEXT_TAGS.includes(t.tagName)) sel.removeAllRanges();
+});
+
 loadPosts();

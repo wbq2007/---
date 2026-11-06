@@ -121,7 +121,9 @@ a { color: inherit; text-decoration: none; }
 h1, h2, h3, h4 { font-family: var(--sans); }
 .serif { font-family: var(--serif); }
 
-::selection { background: var(--brand-6); color: var(--on-brand); }
+/* 选中文字：唐风鎏金高亮 + 深墨文字，浅/深主题下都清晰（网站品牌色之一） */
+::selection { background: var(--tang-gold); color: #1D2129; }
+::-moz-selection { background: var(--tang-gold); color: #1D2129; }
 
 /* ---------- 顶部滚动进度条 ---------- */
 #progress {
@@ -203,28 +205,22 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
     linear-gradient(180deg, #170808 0%, #3a1010 40%, #5c1a13 72%, #7c2718 100%);
   overflow: hidden;
 }
-#hero .scene {
-  position: absolute; left: 0; bottom: 0; width: 100%;
-  height: auto; z-index: 1; pointer-events: none;
-}
-/* 首屏真实照片位：覆盖 SVG 插画（z-index 1），灯笼(z2)与文字(z3)仍浮于其上 */
+/* 首屏照片背景 */
 .hero-photo-wrap {
-  position: absolute; inset: 0; z-index: 1; display: none;
+  position: absolute; inset: 0; z-index: 1;
   background: #170808;            /* 图片加载前的底色 */
   overflow: hidden;
 }
 .hero-photo-wrap img {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center 38%;
-  opacity: 0; transition: opacity .9s ease;
+  object-fit: cover; object-position: center;
+  opacity: 0; animation: heroFade .9s ease .2s forwards;
+  /* 夜景照提一点对比与饱和，避免发灰发糊 */
+  filter: saturate(1.08) contrast(1.06) brightness(.98);
 }
-/* 暗色蒙版：压暗照片、保证白色标题与数据清晰可读 */
-.hero-photo-wrap::after {
-  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(10,4,4,.58) 0%, rgba(10,4,4,.32) 42%, rgba(10,4,4,.62) 100%),
-    radial-gradient(120% 85% at 50% 38%, transparent 28%, rgba(10,4,4,.55) 100%);
-}
+@keyframes heroFade { to { opacity: 1; } }
+/* 暗色蒙版已移除 —— 改为在副标题文字上加背景以保证可读性 */
+.hero-photo-wrap::after { display: none; }
 #hero .hero-inner { position: relative; z-index: 3; }
 
 /* 挂灯笼 */
@@ -269,9 +265,17 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
   animation: fadeUp 1s ease .1s both;
 }
 #hero .sub {
+  display: inline-block;
+  padding: 10px 28px;
   font-size: clamp(15px, 2.2vw, 18px);
-  color: rgba(255, 255, 255, .75); letter-spacing: 2px;
+  color: #FFFFFF; letter-spacing: 2px;
   margin: 14px 0 40px;
+  /* 唐风暗底 + 鎏金左线，呼应挂轴与 timeline 的 Tang 色板 */
+  background: rgba(23, 8, 8, .78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-left: 3px solid var(--tang-gold);
+  border-radius: 0 var(--radius-s) var(--radius-s) 0;
   animation: fadeUp 1s ease .35s both;
 }
 /* 数据条：无容器装饰，细分隔线 + 白色数字（大厂数据展示范式） */
@@ -312,25 +316,6 @@ html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 }
 @keyframes bob { 0%,100%{ transform: translate(-50%,0);} 50%{ transform: translate(-50%,8px);} }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-
-/* SVG 场景里的小动画 */
-.tw   { animation: twinkle 3s ease-in-out infinite; }
-.tw2  { animation-delay: 1.1s; }
-.tw3  { animation-delay: 2.1s; }
-@keyframes twinkle { 0%,100%{opacity:.2} 50%{opacity:1} }
-.cloud  { animation: drift 17s ease-in-out infinite alternate; }
-.cloud2 { animation: drift 23s ease-in-out infinite alternate-reverse; }
-@keyframes drift { from { transform: translateX(0); } to { transform: translateX(48px); } }
-.win { animation: glowPulse 4.2s ease-in-out infinite; }
-@keyframes glowPulse { 0%,100%{opacity:.4} 50%{opacity:.9} }
-/* 金粉：缓慢上浮的小光点 */
-.dust { animation: float 9s ease-in-out infinite; }
-.dust.d2 { animation-delay: -3s; }
-.dust.d3 { animation-delay: -6s; }
-@keyframes float {
-  0%,100% { transform: translateY(0);     opacity: .15; }
-  50%     { transform: translateY(-30px); opacity: .7; }
-}
 
 /* ---------- 通用区块：白 / 浅灰交替的大厂节奏 ---------- */
 section { padding: 96px 6%; position: relative; background: var(--bg-page); }

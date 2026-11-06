@@ -68,9 +68,7 @@
 
   <!-- ============================================================
        【首屏 · 长安夜色】
-       纯 SVG 场景：曲线飞檐的大雁塔（偏右，避开中部文字）、
-       钟楼（偏左）、城墙城门、明月、流云、金粉；CSS 灯笼。
-       放入 images/hero.jpg 可整幅替换为真实照片。
+       照片背景 + 文字层 + CSS 灯笼
        ============================================================ -->
   <section id="hero">
 
@@ -101,11 +99,10 @@
 
     <p class="scroll-hint">▼ 向下滑动</p>
 
-    <!-- ★ 可选图片位：images/hero.jpg 存在时覆盖整幅 SVG 插画 -->
+    <!-- ★ 首屏背景图片 -->
     <div id="hero-photo-wrap" class="hero-photo-wrap" aria-hidden="true">
-      <img id="hero-photo" src="images/hero.jpg" alt="西安钟楼夜景"
-           onload="this.parentElement.style.display='block'; this.style.opacity=1;"
-           onerror="this.parentElement.style.display='none';">
+      <img id="hero-photo" src="images/hero.jpg" alt="西安夜景"
+           onerror="document.getElementById('hero-photo-wrap').style.display='none';">
     </div>
 
   </section>
